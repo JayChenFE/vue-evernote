@@ -40,6 +40,8 @@
 }
 
 .modal-wrapper {
+  // display: table-cell;
+  // vertical-align: middle;
    display: flex;
   justify-content:center;
   align-items:center;

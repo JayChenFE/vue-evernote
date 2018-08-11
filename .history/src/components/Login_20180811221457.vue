@@ -1,5 +1,6 @@
 <template>
    <div id="login">
+    <h1>{{msg}}</h1>
     <div class="modal-mask">
       <div class="modal-wrapper">
         <div class="modal-container">
@@ -40,10 +41,11 @@
 }
 
 .modal-wrapper {
-   display: flex;
-  justify-content:center;
-  align-items:center;
-  height:100%
+  display: table-cell;
+  vertical-align: middle;
+  //  display: flex;
+  // justify-content:center;
+  // align-items:center;
 }
 
 .modal-container {

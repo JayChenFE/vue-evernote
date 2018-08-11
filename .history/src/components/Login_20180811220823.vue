@@ -40,10 +40,8 @@
 }
 
 .modal-wrapper {
-   display: flex;
-  justify-content:center;
-  align-items:center;
-  height:100%
+  display: table-cell;
+  vertical-align: middle;
 }
 
 .modal-container {

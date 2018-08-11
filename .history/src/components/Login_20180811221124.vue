@@ -40,10 +40,9 @@
 }
 
 .modal-wrapper {
-   display: flex;
+  display: flex;
   justify-content:center;
   align-items:center;
-  height:100%
 }
 
 .modal-container {
