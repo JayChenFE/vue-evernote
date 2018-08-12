@@ -131,8 +131,8 @@ export default {
 	}
 	.form {
 		width: 270px;
-		border-left: 1px solid #ccc;
-		//overflow: hidden;
+    border-left: 1px solid #ccc;
+     overflow: hidden;
 
 		h3 {
 			padding: 10px 20px;
@@ -160,15 +160,8 @@ export default {
 
 		.login,
 		.register {
-			padding: 0 20px;
+			padding: 10px 20px;
 			border-top: 1px solid #eee;
-			height: 0;
-			overflow: hidden;
-			transition: height 0.4s;
-
-			&.show {
-				height: 193px;
-			}
 
 			input {
 				display: block;

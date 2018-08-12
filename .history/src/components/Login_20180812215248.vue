@@ -135,7 +135,8 @@ export default {
 		//overflow: hidden;
 
 		h3 {
-			padding: 10px 20px;
+      padding: 10px 20px;
+       margin-top: -1px;
 			font-weight: normal;
 			font-size: 16px;
 			border-top: 1px solid #eee;

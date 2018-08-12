@@ -135,7 +135,7 @@ export default {
 		//overflow: hidden;
 
 		h3 {
-			padding: 10px 20px;
+      padding: 10px 20px;
 			font-weight: normal;
 			font-size: 16px;
 			border-top: 1px solid #eee;
@@ -164,7 +164,7 @@ export default {
 			border-top: 1px solid #eee;
 			height: 0;
 			overflow: hidden;
-			transition: height 0.4s;
+			transition: height .4s;
 
 			&.show {
 				height: 193px;

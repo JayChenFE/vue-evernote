@@ -160,7 +160,7 @@ export default {
 
 		.login,
 		.register {
-			padding: 0 20px;
+			padding: 10px 20px;
 			border-top: 1px solid #eee;
 			height: 0;
 			overflow: hidden;
