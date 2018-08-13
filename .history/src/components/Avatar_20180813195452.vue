@@ -5,10 +5,7 @@
 <script>
 export default {
 	data() {
-		return {
-			user: { username: 'hunger' },
-			slug: 'H'
-		}
+		return { user: { username: 'hunger' }, slug: 'H' }
 	}
 }
 </script>

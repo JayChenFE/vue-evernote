@@ -32,66 +32,65 @@
 
 <script>
 export default {
-  data() {
-    return {
-      isShowLogin: true,
-      isShowRegister: false,
-      login: {
-        username: '',
-        password: '',
-        notice: '输入用户名和密码',
-        isError: false
-      },
-      register: {
-        username: '',
-        password: '',
-        notice: '创建账号后，请记住用户名和密码',
-        isError: false
-      }
-    }
-  },
+	data() {
+		return {
+			isShowLogin: true,
+			isShowRegister: false,
+			login: {
+				username: '',
+				password: '',
+				notice: '输入用户名和密码',
+				isError: false
+			},
+			register: {
+				username: '',
+				password: '',
+				notice: '创建账号后，请记住用户名和密码',
+				isError: false
+			}
+		}
+	},
 
-  methods: {
-    showLogin() {
-      this.isShowLogin = true
-      this.isShowRegister = false
-    },
-    showRegister() {
-      this.isShowLogin = false
-      this.isShowRegister = true
-    },
-    onRegister() {
-      if (!/^[\w\u4e00-\u9fa5]{3,15}$/.test(this.register.username)) {
-        this.register.isError = true
-        this.register.notice = '用户名3~15个字符，仅限于字母数字下划线中文'
-        return
-      }
-      if (!/^.{6,16}$/.test(this.register.password)) {
-        this.register.isError = true
-        this.register.notice = '密码长度为6~16个字符'
-        return
-      }
-      this.register.isError = false
-      this.register.notice = ''
-      console.log(`start register..., username: ${this.register.username} , password: ${this.register.password}`)
-    },
-    onLogin() {
-      if (!/^[\w\u4e00-\u9fa5]{3,15}$/.test(this.login.username)) {
-        this.login.isError = true
-        this.login.notice = '用户名3~15个字符，仅限于字母数字下划线中文'
-        return
-      }
-      if (!/^.{6,16}$/.test(this.login.password)) {
-        this.login.isError = true
-        this.login.notice = '密码长度为6~16个字符'
-        return
-      }
-      this.login.isError = false
-      this.login.notice = ''
-      //console.log(`start login..., username: ${this.login.username} , password: ${this.login.password}`)
-
-    }
-  }
+	methods: {
+		showLogin() {
+			this.isShowLogin = true
+			this.isShowRegister = false
+		},
+		showRegister() {
+			this.isShowLogin = false
+			this.isShowRegister = true
+		},
+		onRegister() {
+			if (!/^[\w\u4e00-\u9fa5]{3,15}$/.test(this.register.username)) {
+				this.register.isError = true
+				this.register.notice = '用户名3~15个字符，仅限于字母数字下划线中文'
+				return
+			}
+			if (!/^.{6,16}$/.test(this.register.password)) {
+				this.register.isError = true
+				this.register.notice = '密码长度为6~16个字符'
+				return
+			}
+			this.register.isError = false
+			this.register.notice = ''
+			console.log(`start register..., username: ${this.register.username} , password: ${this.register.password}`)
+		},
+		onLogin() {
+			if (!/^[\w\u4e00-\u9fa5]{3,15}$/.test(this.login.username)) {
+				this.login.isError = true
+				this.login.notice = '用户名3~15个字符，仅限于字母数字下划线中文'
+				return
+			}
+			if (!/^.{6,16}$/.test(this.login.password)) {
+				this.login.isError = true
+				this.login.notice = '密码长度为6~16个字符'
+				return
+			}
+			this.login.isError = false
+			this.login.notice = ''
+			console.log(`start login..., username: ${this.login.username} , password: ${this.login.password}`)
+		}
+	}
 }
 </script>
 

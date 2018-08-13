@@ -31,8 +31,9 @@ function request(url, type = 'GET', data = {}) {
         console.log(err)
         reject({ msg: '网络异常' })
       })
+
+    request('/auth/login', 'POST', { username: 'hunger', password: '123456' }).then(data => {
+      console.log(data)
+    })
   })
 }
-request('/auth/login', 'POST', { username: 'hunger', password: '123456' }).then(data => {
-  console.log(data)
-})

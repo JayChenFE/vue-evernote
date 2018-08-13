@@ -1,5 +1,5 @@
 <template>
-  <div id="trash-detail">
+  <div id="note-detail">
     <h1>{{msg}} : {{ $route.params.noteId }}</h1>
   </div>
 </template>
@@ -8,7 +8,7 @@
 export default {
 	name: 'Login',
 	data() {
-		return { msg: '回收站笔记详情页' }
+		return { msg: '笔记详情页' }
 	}
 }
 </script>
