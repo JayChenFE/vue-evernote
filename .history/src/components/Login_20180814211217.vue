@@ -31,7 +31,7 @@
 </template>
 
 <script>
-import Auth from '@/apis/auth'
+import request from '@/helpers/request'
 export default {
 	data() {
 		return {
@@ -75,8 +75,7 @@ export default {
 			}
 			this.register.isError = false
 			this.register.notice = ''
-
-			Auth.register({ username, password }).then(data => {
+			request('/auth/register', 'POST', { username, password }).then(data => {
 				console.log(data)
 			})
 		},
@@ -94,7 +93,7 @@ export default {
 			}
 			this.login.isError = false
 			this.login.notice = ''
-			Auth.login({ username, password }).then(data => {
+			request('/auth/login', 'POST', { username, password }).then(data => {
 				console.log(data)
 			})
 		}

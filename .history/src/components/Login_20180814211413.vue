@@ -94,7 +94,7 @@ export default {
 			}
 			this.login.isError = false
 			this.login.notice = ''
-			Auth.login({ username, password }).then(data => {
+			request('/auth/login', 'POST', { username, password }).then(data => {
 				console.log(data)
 			})
 		}

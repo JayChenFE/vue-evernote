@@ -25,11 +25,7 @@ import Auth from '@/apis/auth'
 export default {
 	components: { avatar },
 	methods: {
-		logout() {
-			Auth.logout().then(data => {
-				console.log(data)
-			})
-		}
+		logout() {}
 	}
 }
 </script>
