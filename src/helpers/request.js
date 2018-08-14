@@ -1,25 +1,25 @@
 import axios from 'axios'
 
-axios.defaults.heraders.post['Content-Type'] = 'application/x-www-form-urlencoded'
-axios.defaults.baseURL = 'http://note-server.hunger-valley.com'
+axios.defaults.headers.post['Content-Type'] =
+  'application/x-www-form-urlencoded'
+axios.defaults.baseURL = 'https://note-server.hunger-valley.com'
+axios.defaults.withCredentials = true // 使用跨域请求
 
-function request(url, type = 'GET', data = {}) {
+export default function request(url, type = 'GET', data = {}) {
   return new Promise((resolve, reject) => {
-    const option = {
+    let options = {
       url,
       method: type,
       validateStatus(status) {
         return (status >= 200 && status < 300) || status === 400
       }
     }
-
     if (type.toLowerCase() === 'get') {
-      option.params = data
+      options.params = data
     } else {
-      option.data = data
+      options.data = data
     }
-
-    axios(option)
+    axios(options)
       .then(res => {
         if (res.status === 200) {
           resolve(res.data)
@@ -29,10 +29,7 @@ function request(url, type = 'GET', data = {}) {
       })
       .catch(err => {
         console.log(err)
-        reject({ msg: '网络异常' })
+        console.error({ msg: '网络异常' })
       })
   })
 }
-request('/auth/login', 'POST', { username: 'hunger', password: '123456' }).then(data => {
-  console.log(data)
-})
