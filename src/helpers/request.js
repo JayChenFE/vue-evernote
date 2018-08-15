@@ -1,12 +1,14 @@
 import axios from 'axios'
+import baseURLConfig from './config-baseURL'
 
-axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded'
-axios.defaults.baseURL = 'https://note-server.hunger-valley.com'
+axios.defaults.headers.post['Content-Type'] =
+  'application/x-www-form-urlencoded'
+axios.defaults.baseURL = baseURLConfig.baseURL
 axios.defaults.withCredentials = true // 使用跨域请求
 
 export default function request(url, type = 'GET', data = {}) {
   return new Promise((resolve, reject) => {
-    let options = {
+    const options = {
       url,
       method: type,
       validateStatus(status) {
