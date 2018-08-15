@@ -73,13 +73,21 @@ export default {
         this.register.notice = '密码长度为6~16个字符'
         return
       }
-      this.register.isError = false
-      this.register.notice = ''
 
       Auth.register({ username, password }).then(data => {
-        console.log(data)
+        this.login.isError = false
+        this.login.notice = ''
+        this.$router
+          .push({
+            path: 'notebooks'
+          })
+          .catch(data => {
+            this.login.isError = true
+            this.login.notice = data.msg
+          })
       })
     },
+
     onLogin() {
       const { username, password } = this.login
       if (!/^[\w\u4e00-\u9fa5]{3,15}$/.test(this.login.username)) {
@@ -92,11 +100,20 @@ export default {
         this.login.notice = '密码长度为6~16个字符'
         return
       }
-      this.login.isError = false
-      this.login.notice = ''
-      Auth.login({ username, password }).then(data => {
-        console.log(data)
-      })
+
+      Auth.login({ username, password })
+        .then(data => {
+          this.login.isError = false
+          this.login.notice = ''
+          this.$router.push({
+            path: 'notebooks'
+          })
+          //console.log(data)
+        })
+        .catch(data => {
+          this.login.isError = true
+          this.login.notice = data.msg
+        })
     }
   }
 }
