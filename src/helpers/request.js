@@ -22,15 +22,17 @@ export default function request(url, type = 'GET', data = {}) {
       options.data = data
     }
 
-    axios(options).then(res => {
-      if (res.status === 200) {
-        resolve(res.data)
-      } else {
-        reject(res.data)
-      }
-    }).catch(err => {
-      console.log(err)
-      console.error({ msg: '网络异常' })
-    })
+    axios(options)
+      .then(res => {
+        if (res.status === 200) {
+          resolve(res.data)
+        } else {
+          reject(res.data)
+        }
+      })
+      .catch(err => {
+        console.log(err)
+        console.error({ msg: '网络异常' })
+      })
   })
 }
