@@ -1,48 +1,36 @@
 <template>
-  <div id="notebook-list">
-    <header>
-      <a href="#" class="btn"><i class="iconfont icon-plus"></i>新建笔记本</a>
-    </header>
-    <main>
-      <div class="layout">
-        <h3>笔记本列表(10)</h3>
-        <div class="book-list">
-          <a href="#" class="notebook">
-            <div>
-              <span class="iconfont icon-notebook"></span>笔记本标题1 <span>3</span><span class="action">编辑</span>
-              <span class="action">删除</span>
-              <span class="date">3天前</span>
-            </div>
-          </a>
-           <a href="#" class="notebook">
-            <div>
-              <span class="iconfont icon-notebook"></span>笔记本标题2 <span>3</span><span class="action">编辑</span>
-              <span class="action">删除</span>
-              <span class="date">5天前</span>
-            </div>
-          </a>
-        </div>
+<div id="notebook-list">
+  <header>
+    <a href="#" class="btn" @click.prevent="onCreate"><i class="iconfont icon-plus"></i>新建笔记本</a>
+  </header>
+  <main>
+    <div class="layout">
+      <h3>笔记本列表({{notebooks.length}})</h3>
+      <div class="book-list">
+        <router-link v-for="notebook in notebooks" :key="notebook.id" to="note/1" class="notebook">
+          <div>
+            <span class="iconfont icon-notebook"></span> {{notebook.title}}
+            <span>{{notebook.noteCounts||0}}</span>
+            <span class="action" @click.stop.prevent="onDelete(notebook)">删除</span>
+            <span class="action" @click.stop.prevent="OnEdit(notebook)">编辑</span>
+            <span class="date">{{notebook.createdAt|friendlyDate}}</span>
+          </div>
+        </router-link>
       </div>
-    </main>
-
-    <!-- <h1>{{msg}}</h1>
-    <ul>
-      <li>
-        <router-link to="/note/1">笔记本1</router-link>
-      </li>
-      <li>
-        <router-link to="/note/2">笔记本2</router-link>
-      </li>
-    </ul> -->
-  </div>
+    </div>
+  </main>
+</div>
 </template>
 
 <script>
 import Auth from '@/apis/auth'
+import Notebooks from '@/apis/notebooks'
 export default {
-  name: 'Login',
+  name: 'notebookList',
   data() {
-    return { msg: '笔记本列表' }
+    return {
+      notebooks: []
+    }
   },
 
   created() {
@@ -51,6 +39,51 @@ export default {
         this.$router.push({ path: '/login' })
       }
     })
+
+    Notebooks.getAll().then(res => {
+      this.notebooks = res.data
+    })
+  },
+
+  methods: {
+    onCreate() {
+      const title = window.prompt('新建笔记本')
+
+      if (title.trim() === '') {
+        alert('标题不能为空')
+        return
+      }
+
+      Notebooks.addNotebook({ title }).then(res => {
+        console.log(res.data)
+        this.notebooks = [res.data, ...this.notebooks]
+      })
+    },
+
+    onEdit(notebook) {
+      const title = window.prompt('编辑笔记本', notebook.title)
+
+      if (title.trim() === '') {
+        alert('标题不能为空')
+        return
+      }
+
+      Notebooks.updateNotebook(notebook.id, { title }).then(res => {
+        notebook.title = title
+      })
+    },
+
+    onDelete(notebook) {
+      const confirm = window.confirm(`是否删除 ${notebook.title} `)
+
+      if (!confirm) {
+        return
+      }
+
+      Notebooks.deleteNotebook(notebook.id).then(res => {
+        this.notebooks.splice(this.notebooks.indexOf(notebook), 1)
+      })
+    }
   }
 }
 </script>
