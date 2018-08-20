@@ -12,6 +12,8 @@
   },
   "dependencies": {
     "axios": "^0.18.0",
+    "element-theme": "^2.0.1",
+    "element-theme-chalk": "^2.4.6",
     "element-ui": "^2.4.6",
     "less": "^3.8.1",
     "vue": "^2.5.2",
