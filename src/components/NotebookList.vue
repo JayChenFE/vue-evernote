@@ -1,25 +1,33 @@
 <template>
-<div id="notebook-list">
-  <header>
-    <a href="#" class="btn" @click.prevent="onCreate"><i class="iconfont icon-plus"></i>新建笔记本</a>
-  </header>
-  <main>
-    <div class="layout">
-      <h3>笔记本列表({{notebooks.length}})</h3>
-      <div class="book-list">
-        <router-link v-for="notebook in notebooks" :key="notebook.id" to="note/1" class="notebook">
-          <div>
-            <span class="iconfont icon-notebook"></span> {{notebook.title}}
-            <span>{{notebook.noteCounts||0}}</span>
-            <span class="action" @click.stop.prevent="onDelete(notebook)">删除</span>
-            <span class="action" @click.stop.prevent="OnEdit(notebook)">编辑</span>
-            <span class="date">{{notebook.createdAt|friendlyDate}}</span>
-          </div>
-        </router-link>
+  <div id="notebook-list">
+    <header>
+      <a href="#"
+         class="btn"
+         @click.prevent="onCreate">
+        <i class="iconfont icon-plus"></i>新建笔记本</a>
+    </header>
+    <main>
+      <div class="layout">
+        <h3>笔记本列表({{notebooks.length}})</h3>
+        <div class="book-list">
+          <router-link v-for="notebook in notebooks"
+                       :key="notebook.id"
+                       to="note/1"
+                       class="notebook">
+            <div>
+              <span class="iconfont icon-notebook"></span> {{notebook.title}}
+              <span>{{notebook.noteCounts||0}}</span>
+              <span class="action"
+                    @click.stop.prevent="onDelete(notebook)">删除</span>
+              <span class="action"
+                    @click.stop.prevent="OnEdit(notebook)">编辑</span>
+              <span class="date">{{notebook.createdAt|friendlyDate}}</span>
+            </div>
+          </router-link>
+        </div>
       </div>
-    </div>
-  </main>
-</div>
+    </main>
+  </div>
 </template>
 
 <script>
@@ -47,20 +55,36 @@ export default {
 
   methods: {
     onCreate() {
-      const title = window.prompt('新建笔记本')
-
-      if (title.trim() === '') {
-        alert('标题不能为空')
-        return
-      }
-
-      Notebooks.addNotebook({ title }).then(res => {
-        console.log(res.data)
+      this.$prompt('请输入笔记本标题', '新建笔记本', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        inputPattern: /^.{1,30}$/,
+        inputErrorMessage: '标题必须在1-30个字符之间'
+      }).then(({ value }) => {
+        return Notebooks.addNotebook({ title: value })
+      }).then(res => {
         this.notebooks = [res.data, ...this.notebooks]
+        this.$message({ type: 'success', message: res.msg })
+      }).catch(res => {
+        this.$message({ type: 'error', message: res.msg })
       })
     },
 
     onEdit(notebook) {
+      this.$prompt('请输入新的笔记本标题', '编辑笔记本', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        inputPattern: /^.{1,30}$/,
+        inputErrorMessage: '标题必须在1-30个字符之间'
+      }).then(({ value }) => {
+        return Notebooks.updateNotebook({ title: value })
+      }).then(res => {
+        this.notebooks = [res.data, ...this.notebooks]
+        this.$message({ type: 'success', message: res.msg })
+      }).catch(res => {
+        this.$message({ type: 'error', message: res.msg })
+      })
+
       const title = window.prompt('编辑笔记本', notebook.title)
 
       if (title.trim() === '') {
