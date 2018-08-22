@@ -1,27 +1,27 @@
 <template>
-  <span :title="username">{{slug}}</span>
+    <span :title="username">{{slug}}</span>
 </template>
 
 <script>
 import Bus from '@/helpers/bus'
 export default {
-  data() {
-    return {
-      username: 'hunger'
-    }
-  },
+    data() {
+        return {
+            username: 'hunger'
+        }
+    },
 
-  created() {
-    Bus.$on('userInfo', username => {
-      this.username = username
-    })
-  },
+    created() {
+        Bus.$on('userInfo', username => {
+            this.username = username
+        })
+    },
 
-  computed: {
-    slug() {
-      return this.username.charAt(0)
+    computed: {
+        slug() {
+            return this.username.charAt(0)
+        }
     }
-  }
 }
 </script>
 

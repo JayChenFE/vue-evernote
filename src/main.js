@@ -9,7 +9,7 @@ import router from './router'
 
 // 全局过滤器
 for (let key in filters) {
-  Vue.filter(key, filters[key])
+    Vue.filter(key, filters[key])
 }
 
 Vue.config.productionTip = false
@@ -18,8 +18,8 @@ Vue.use(ElementUI)
 
 /* eslint-disable no-new */
 window.vm = new Vue({
-  el: '#app',
-  router,
-  components: { App },
-  template: '<App/>'
+    el: '#app',
+    router,
+    components: { App },
+    template: '<App/>'
 })

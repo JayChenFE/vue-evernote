@@ -1,23 +1,23 @@
 <template>
-  <div id="app">
-    <sidebar></sidebar>
-    <router-view></router-view>
-  </div>
-  
+    <div id="app">
+        <sidebar></sidebar>
+        <router-view></router-view>
+    </div>
+
 </template>
 
 <script>
-import sidebar from "@/components/Sidebar";
+import sidebar from '@/components/Sidebar'
 export default {
-  name: "App",
-  components: {
-    sidebar
-  }
-};
+    name: 'App',
+    components: {
+        sidebar
+    }
+}
 </script>
 
 <style>
-@import "//at.alicdn.com/t/font_496303_kqrjhri8l25d0a4i.css";
+@import '//at.alicdn.com/t/font_496303_kqrjhri8l25d0a4i.css';
 
 * {
   box-sizing: border-box;
@@ -32,7 +32,7 @@ body,
 }
 
 body {
-  font-family: "Avenir", Helvetica, Arial, sans-serif;
+  font-family: 'Avenir', Helvetica, Arial, sans-serif;
   font-size: 14px;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
