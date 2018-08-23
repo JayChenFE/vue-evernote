@@ -6,9 +6,7 @@
 import Bus from '@/helpers/bus'
 export default {
     data() {
-        return {
-            username: 'hunger'
-        }
+        return { username: 'hunger' }
     },
 
     created() {

@@ -1,6 +1,6 @@
 <template>
     <div id="note" class="detail">
-        <nodeSidebar></nodeSidebar>
+        <noteSidebar></noteSidebar>
         <div id="note-detail">
             <h1>notebookId: {{ $route.query.notebookId }}</h1>
             <h1>noteId: {{ $route.query.noteId }}</h1>
@@ -10,9 +10,9 @@
 
 <script>
 import Auth from '@/apis/auth'
-import nodeSidebar from '@/components/NodeSidebar'
+import noteSidebar from '@/components/NoteSidebar'
 export default {
-    components: { nodeSidebar },
+    components: { noteSidebar },
     name: 'NodeDetail',
     data() {
         return { msg: '笔记详情页' }
