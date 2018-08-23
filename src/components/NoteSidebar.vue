@@ -19,8 +19,8 @@
         </div>
         <ul class="notes">
             <li v-for="note in notes" :key="note.id">
-                <router-link :to="`/note?noteId=${note.id}`">
-                    <span class="date">{{note.createdAt|friendlyDate}}</span>
+                <router-link :to="`/note?notebookId=${currentNotebook}&noteId=${note.id}`">
+                    <span class="date">{{note.updatedAt|friendlyDate}}</span>
                     <span class="title">{{note.title}}</span>
                 </router-link>
             </li>
@@ -29,24 +29,42 @@
 </template>
 
 <script>
+import Notebooks from '@/apis/notebooks'
+import Notes from '@/apis/notes'
 export default {
+
     data() {
         return {
-            notebooks: [
-                { id: 1, title: 'hello1' },
-                { id: 2, title: 'hello2' },
-                { id: 3, title: 'hello3' }
-            ],
-            notes: [
-                { id: 1, title: 'note1', createdAt: '2018-08-22T02:13:33.142Z' },
-                { id: 2, title: 'note2', createdAt: '2018-06-22T02:13:33.142Z' }
-            ]
+            notebooks: [],
+            notes: [],
+            currentNotebook: {}
         }
     },
 
+    created() {
+        Notebooks.getAll().then(res => {
+            const { notebookId: queryNotebookId } = this.$route.query
+
+            this.notebooks = res.data
+            this.currentNotebook =
+                this.notebooks.find(notebook => notebook.id === queryNotebookId) ||
+                this.notebooks[0] ||
+                {}
+            return Notes.getAll({ notebookId: this.currentNotebook.id })
+        }).then(res => {
+            this.notes = res.data
+        })
+    },
+
     methods: {
-        handleCommand(command) {
-            this.$message('click on item ' + command)
+        handleCommand(notebookId) {
+            if (notebookId === 'trash') {
+                return this.router.push({ path: '/trash' })
+            } else {
+                Notes.getAll({ notebookId }).then(res => {
+                    this.notes = res.data
+                })
+            }
         }
     }
 }
@@ -54,5 +72,4 @@ export default {
 
 <style lang="less" scoped>
 @import url(../assets/css/note-sidebar.less);
-
 </style>
