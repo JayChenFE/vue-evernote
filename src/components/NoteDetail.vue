@@ -1,18 +1,30 @@
 <template>
     <div id="note" class="detail">
-        <noteSidebar></noteSidebar>
+        <NoteSidebar></NoteSidebar>
         <div id="note-detail">
-            <h1>notebookId: {{ $route.query.notebookId }}</h1>
-            <h1>noteId: {{ $route.query.noteId }}</h1>
+            <div class="note-bar">
+                <span>创建日期:2天前</span>
+                <span>更新日期:1分钟前</span>
+                <span>已保存</span>
+                <span class="iconfont icon-delete"></span>
+                <span class="iconfont icon-fullscreen"></span>
+            </div>
+            <div class="note-title">
+                <input type="text" placeholder="输入标题">
+            </div>
+            <div class="editor">
+                <textarea v-show="true" placeholder="输入内容, 支持markdown语法"></textarea>
+                <div class="preview markdown-body" v-html="a" v-show="false"></div>
+            </div>
         </div>
     </div>
 </template>
 
 <script>
 import Auth from '@/apis/auth'
-import noteSidebar from '@/components/NoteSidebar'
+import NoteSidebar from '@/components/NoteSidebar'
 export default {
-    components: { noteSidebar },
+    components: { NoteSidebar },
     name: 'NodeDetail',
     data() {
         return { msg: '笔记详情页' }

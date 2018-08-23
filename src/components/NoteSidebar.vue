@@ -60,11 +60,13 @@ export default {
         handleCommand(notebookId) {
             if (notebookId === 'trash') {
                 return this.router.push({ path: '/trash' })
-            } else {
-                Notes.getAll({ notebookId }).then(res => {
-                    this.notes = res.data
-                })
             }
+            // 切换到用户选择的笔记本
+            this.currentNotebook = this.notebooks.find(notebook => notebook.id === notebookId)
+            // 获取切换后笔记本的所有笔记
+            Notes.getAll({ notebookId }).then(res => {
+                this.notes = res.data
+            })
         }
     }
 }
