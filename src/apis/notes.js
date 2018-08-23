@@ -22,7 +22,7 @@ export default {
 
     getAll({ notebookId }) {
         return new Promise((resolve, reject) => {
-            request(URL.GET.replace(':nodebookId', notebookId)).then(res => {
+            request(URL.GET.replace(':notebookId', notebookId)).then(res => {
                 resolve(res)
             }).catch(res => {
                 reject(res)

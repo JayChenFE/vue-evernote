@@ -59,7 +59,7 @@ export default {
     methods: {
         handleCommand(notebookId) {
             if (notebookId === 'trash') {
-                return this.router.push({ path: '/trash' })
+                return this.$router.push({ path: '/trash' })
             }
             // 切换到用户选择的笔记本
             this.currentNotebook = this.notebooks.find(notebook => notebook.id === notebookId)
