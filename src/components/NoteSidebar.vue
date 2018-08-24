@@ -40,7 +40,6 @@ export default {
             currentNotebook: {}
         }
     },
-
     created() {
         Notebooks.getAll().then(res => {
             const { notebookId: queryNotebookId } = this.$route.query
@@ -53,6 +52,7 @@ export default {
             return Notes.getAll({ notebookId: this.currentNotebook.id })
         }).then(res => {
             this.notes = res.data
+            this.$emit('update:notes', this.notes)
         })
     },
 
@@ -66,6 +66,7 @@ export default {
             // 获取切换后笔记本的所有笔记
             Notes.getAll({ notebookId }).then(res => {
                 this.notes = res.data
+                this.$emit('update:notes', this.notes)
             })
         }
     }

@@ -1,19 +1,19 @@
 <template>
     <div id="note" class="detail">
-        <NoteSidebar></NoteSidebar>
+        <NoteSidebar @update:notes="val=>notes = val"></NoteSidebar>
         <div class="note-detail">
             <div class="note-bar">
-                <span>创建日期: 2天前</span>
-                <span>更新日期: 1分钟前</span>
-                <span class="save">已保存</span>
+                <span>创建日期: {{currentNote.createdAt}}</span>
+                <span>更新日期: {{currentNote.updatedAt}}</span>
+                <span class="save">{{currentNote.statusText}}</span>
                 <span class="iconfont icon-fullscreen"></span>
                 <span class="iconfont icon-delete"></span>
             </div>
             <div class="note-title">
-                <input type="text" placeholder="输入标题">
+                <input type="text" :vale="currentNote.title" placeholder="输入标题">
             </div>
             <div class="editor">
-                <textarea v-show="true" placeholder="输入内容, 支持markdown语法"></textarea>
+                <textarea v-show="true" :vale="currentNote.content" placeholder="输入内容, 支持 markdown 语法"></textarea>
                 <div class="preview markdown-body" v-show="false"></div>
             </div>
         </div>
@@ -27,7 +27,11 @@ export default {
     components: { NoteSidebar },
     name: 'NodeDetail',
     data() {
-        return { msg: '笔记详情页' }
+        return {
+            currentNote: {
+            },
+            notes: []
+        }
     },
 
     created() {
@@ -36,6 +40,12 @@ export default {
                 this.$router.push({ path: '/login' })
             }
         })
+    },
+
+    beforeRouteUpdate(to, from, next) {
+        this.currentNote = this.notes.find(note =>
+            note.id === to.query.noteId)
+        next()
     }
 }
 </script>
