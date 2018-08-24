@@ -31,6 +31,7 @@
 <script>
 import Notebooks from '@/apis/notebooks'
 import Notes from '@/apis/notes'
+import Bus from '@/helpers/bus'
 export default {
 
     data() {
@@ -53,6 +54,7 @@ export default {
         }).then(res => {
             this.notes = res.data
             this.$emit('update:notes', this.notes)
+            Bus.$emit('update:notes', this.notes)
         })
     },
 
