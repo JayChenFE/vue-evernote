@@ -3,8 +3,8 @@
         <NoteSidebar></NoteSidebar>
         <div class="note-detail">
             <div class="note-bar">
-                <span>创建日期:2天前</span>
-                <span>更新日期:1分钟前</span>
+                <span>创建日期: 2天前</span>
+                <span>更新日期: 1分钟前</span>
                 <span class="save">已保存</span>
                 <span class="iconfont icon-fullscreen"></span>
                 <span class="iconfont icon-delete"></span>
