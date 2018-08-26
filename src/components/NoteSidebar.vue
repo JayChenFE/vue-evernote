@@ -1,9 +1,9 @@
 <template>
     <div class="note-sidebar">
-        <el-button size="mini" round class="add-note">添加笔记</el-button>
+        <el-button size="mini" round class="add-note" @click="addNote">添加笔记</el-button>
         <el-dropdown class="notebook-title" placement="bottom" @command="handleCommand">
             <span class="el-dropdown-link">
-                我的笔记本
+                {{currentNotebook.title}}
                 <i class="iconfont icon-down"></i>
             </span>
             <el-dropdown-menu slot="dropdown">
@@ -19,7 +19,7 @@
         </div>
         <ul class="notes">
             <li v-for="note in notes" :key="note.id">
-                <router-link :to="`/note?notebookId=${currentNotebook}&noteId=${note.id}`">
+                <router-link :to="`/note?notebookId=${currentNotebook.id}&noteId=${note.id}`">
                     <span class="date">{{note.updatedAt|friendlyDate}}</span>
                     <span class="title">{{note.title}}</span>
                 </router-link>
@@ -47,7 +47,7 @@ export default {
 
             this.notebooks = res.data
             this.currentNotebook =
-                this.notebooks.find(notebook => notebook.id === queryNotebookId) ||
+                this.notebooks.find(notebook => notebook.id.toString() === queryNotebookId) ||
                 this.notebooks[0] ||
                 {}
             return Notes.getAll({ notebookId: this.currentNotebook.id })
@@ -70,6 +70,12 @@ export default {
                 this.notes = res.data
                 this.$emit('update:notes', this.notes)
             })
+        },
+        addNote() {
+            Notes.addNote({ notebookId: this.currentNotebook.id })
+                .then(res => {
+                    this.notes.unshift(res.data)
+                })
         }
     }
 }

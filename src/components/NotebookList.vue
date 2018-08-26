@@ -8,7 +8,8 @@
             <div class="layout">
                 <h3>笔记本列表({{notebooks.length}})</h3>
                 <div class="book-list">
-                    <router-link v-for="notebook in notebooks" :key="notebook.id" :to="`note?notebookId=${notebook.id}`" class="notebook">
+                    <router-link v-for="notebook in notebooks" :key="notebook.id"
+                        :to="`note?notebookId=${notebook.id}`" class="notebook">
                         <div>
                             <span class="iconfont icon-notebook"></span> {{notebook.title}}
                             <span>{{notebook.noteCounts||0}}</span>
@@ -26,6 +27,7 @@
 <script>
 import Auth from '@/apis/auth'
 import Notebooks from '@/apis/notebooks'
+
 export default {
     name: 'notebookList',
     data() {
