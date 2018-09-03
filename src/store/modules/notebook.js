@@ -1,3 +1,6 @@
+
+import Notebooks from '@/apis/notebooks'
+
 const state = {
     notebooks: []
 }
@@ -28,11 +31,32 @@ const mutations = {
 
 const actions = {
     getNotebook({ commit }) {
-        Notebook.getAll().then(res => {
+        Notebooks.getAll().then(res => {
             commit('setNotebooks', { notebooks: res.data })
         })
-    }
+    },
 
+    addNotebook({ commit }, payload) {
+        Notebooks.addNotebook({ title: payload.title })
+            .then(res => {
+                commit('addNotebook', { notebook: res.data })
+            })
+    },
+
+    updateNotebook({ commit }, payload) {
+        const { notebookId, title } = payload
+        Notebooks.updateNotebook(notebookId, { title })
+            .then(res => {
+                commit('updateNotebook', { notebookId, title })
+            })
+    },
+
+    deleteNotebook({ commit }, { notebookId }) {
+        Notebooks.deleteNotebook(notebookId)
+            .then(res => {
+                commit('deleteNotebook', { notebookId })
+            })
+    }
 }
 
 export default {
