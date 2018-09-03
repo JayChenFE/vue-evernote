@@ -7,33 +7,34 @@ const state = {
 }
 
 const getters = {
-    notebooks: state => state.notebooks
+    notes: state => state.notes
 }
 
 const mutations = {
-    setNotebooks(state, payload) {
-        state.notebooks = payload.notebooks
+    setNote(state, { notes }) {
+        state.notes = notes
     },
 
-    addNotebook(state, payload) {
-        state.notebooks.unshift(payload.notebook)
+    addNote(state, { note }) {
+        state.notes.unshift(note)
     },
 
-    updateNotebook(state, payload) {
-        const notebook = state.notebooks.find(notebook =>
-            notebook.id === payload.notebookId) || {}
-        notebook.title = payload.title
+    updateNote(state, { noteId, title, content }) {
+        const note = state.notes.find(note =>
+            note.id === noteId) || {}
+        note.title = title
+        note.content = content
     },
 
-    deleteNotebook(state, payload) {
-        state.notebooks = state.notebooks.filter(notebook => notebook.id !== payload.notebookId)
+    deleteNote(state, { noteId }) {
+        state.notes = state.notes.filter(note => note.id !== noteId)
     }
 }
 
 const actions = {
-    getNotebooks({ commit }) {
-        Notebooks.getAll().then(res => {
-            commit('setNotebooks', { notebooks: res.data })
+    getNotes({ commit }, { notebookId }) {
+        Note.getAll(notebookId).then(res => {
+            commit('setNotes', { notes: res.data })
         })
     },
 
