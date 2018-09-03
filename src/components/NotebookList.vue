@@ -25,15 +25,12 @@
 
 <script>
 import Auth from '@/apis/auth'
-import Notebooks from '@/apis/notebooks'
-import { mapState, mapActions, mapGetters } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 
 export default {
     name: 'notebookList',
     data() {
-        return {
-            notebooks: []
-        }
+        return {}
     },
 
     created() {
@@ -42,11 +39,6 @@ export default {
                 this.$router.push({ path: '/login' })
             }
         })
-
-        // Notebooks.getAll().then(res => {
-        //     this.notebooks = res.data
-        // })
-
         this.$store.dispatch('getNotebooks')
     },
 
@@ -87,10 +79,6 @@ export default {
                 type: 'warning'
             }).then(_ => {
                 this.deleteNotebook({ notebookId: notebook.id })
-                    .then(res => {
-                        this.$message.success('删除成功!')
-                        this.notebooks.splice(this.notebooks.indexOf(notebook), 1)
-                    })
             })
         }
     }

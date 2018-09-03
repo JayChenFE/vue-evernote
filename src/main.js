@@ -2,11 +2,11 @@
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import filters from '@/helpers/filter'
 import Vue from 'vue'
-import Vuex from 'vuex'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 import App from './App'
 import router from './router'
+import store from './store'
 
 // 全局过滤器
 for (let key in filters) {
@@ -15,13 +15,13 @@ for (let key in filters) {
 
 Vue.config.productionTip = false
 
-Vue.use(Vuex)
 Vue.use(ElementUI)
 
 /* eslint-disable no-new */
 window.vm = new Vue({
     el: '#app',
     router,
+    store,
     components: { App },
     template: '<App/>'
 })
