@@ -33,33 +33,32 @@ const mutations = {
 
 const actions = {
     getNotes({ commit }, { notebookId }) {
-        Note.getAll(notebookId).then(res => {
+        return Note.getAll(notebookId).then(res => {
             commit('setNotes', { notes: res.data })
         })
     },
 
-    addNotebook({ commit }, payload) {
-        Notebooks.addNotebook({ title: payload.title })
+    addNote({ commit }, { notebookId, title, content }) {
+        return Note.addNote({ notebookId }, { title, content })
             .then(res => {
-                commit('addNotebook', { notebook: res.data })
-                Message.success(res.Message)
+                commit('addNote', { note: res.data })
+                Message.success(res.msg)
             })
     },
 
-    updateNotebook({ commit }, payload) {
-        const { notebookId, title } = payload
-        Notebooks.updateNotebook(notebookId, { title })
+    updateNote({ commit }, { noteId, title, content }) {
+        return Note.updateNote(noteId, { title, content })
             .then(res => {
-                commit('updateNotebook', { notebookId, title })
-                Message.success(res.Message)
+                commit('updateNote', { noteId, title, content })
+                Message.success(res.msg)
             })
     },
 
-    deleteNotebook({ commit }, { notebookId }) {
-        Notebooks.deleteNotebook(notebookId)
+    deleteNotebook({ commit }, { noteId }) {
+        return Note.deleteNote(noteId)
             .then(res => {
-                commit('deleteNotebook', { notebookId })
-                Message.success(res.Message)
+                commit('deleteNote', { noteId })
+                Message.success(res.msg)
             })
     }
 }

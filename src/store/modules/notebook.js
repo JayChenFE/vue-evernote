@@ -2,11 +2,24 @@ import Notebooks from '@/apis/notebooks'
 import { Message } from 'element-ui'
 
 const state = {
-    notebooks: []
+    notebooks: null,
+    currentNotebookId: null
 }
 
 const getters = {
-    notebooks: state => state.notebooks
+    notebooks: state => state.notebooks || [],
+    currentNotebook: state => {
+        if (!Array.isArray(state.notebooks)) {
+            return {}
+        }
+
+        if (!state.currentNotebookId) {
+            return state.notebooks[0]
+        }
+
+        return state.notebooks.find(notebook => notebook.id === state.currentNotebookId)
+    }
+
 }
 
 const mutations = {
@@ -58,7 +71,12 @@ const actions = {
                 commit('deleteNotebook', { notebookId })
                 Message.success(res.msg)
             })
+    },
+
+    setCurrentNotebook(state, { currentNotebookId }) {
+        state.currentNotebookId = currentNotebookId
     }
+
 }
 
 export default {

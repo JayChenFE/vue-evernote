@@ -32,6 +32,8 @@
 import Notebooks from '@/apis/notebooks'
 import Notes from '@/apis/notes'
 import Bus from '@/helpers/bus'
+import { mapActions, mapGetters } from 'vuex'
+
 export default {
 
     data() {
@@ -41,7 +43,15 @@ export default {
             currentNotebook: {}
         }
     },
+
+    computed: {
+        ...mapGetters(['notebooks', 'notes', 'currentNote'])
+    },
+
     created() {
+        this.getNotebooks()
+            .then(_ => { })
+
         Notebooks.getAll().then(res => {
             const { notebookId: queryNotebookId } = this.$route.query
 
@@ -59,6 +69,7 @@ export default {
     },
 
     methods: {
+        ...mapActions(['getNotebooks,getNotes']),
         handleCommand(notebookId) {
             if (notebookId === 'trash') {
                 return this.$router.push({ path: '/trash' })
