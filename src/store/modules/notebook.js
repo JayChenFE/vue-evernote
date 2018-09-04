@@ -19,7 +19,6 @@ const getters = {
 
         return state.notebooks.find(notebook => notebook.id === state.currentNotebookId)
     }
-
 }
 
 const mutations = {
@@ -44,13 +43,13 @@ const mutations = {
 
 const actions = {
     getNotebooks({ commit }) {
-        Notebooks.getAll().then(res => {
+        return Notebooks.getAll().then(res => {
             commit('setNotebooks', { notebooks: res.data })
         })
     },
 
     addNotebook({ commit }, { title }) {
-        Notebooks.addNotebook({ title })
+        return Notebooks.addNotebook({ title })
             .then(res => {
                 commit('addNotebook', { notebook: res.data })
                 Message.success(res.msg)
@@ -58,7 +57,7 @@ const actions = {
     },
 
     updateNotebook({ commit }, { notebookId, title }) {
-        Notebooks.updateNotebook(notebookId, { title })
+        return Notebooks.updateNotebook(notebookId, { title })
             .then(res => {
                 commit('updateNotebook', { notebookId, title })
                 Message.success(res.msg)
@@ -66,7 +65,7 @@ const actions = {
     },
 
     deleteNotebook({ commit }, { notebookId }) {
-        Notebooks.deleteNotebook(notebookId)
+        return Notebooks.deleteNotebook(notebookId)
             .then(res => {
                 commit('deleteNotebook', { notebookId })
                 Message.success(res.msg)

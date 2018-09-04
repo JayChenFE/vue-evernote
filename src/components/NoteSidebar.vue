@@ -37,11 +37,7 @@ import { mapActions, mapGetters } from 'vuex'
 export default {
 
     data() {
-        return {
-            notebooks: [],
-            notes: [],
-            currentNotebook: {}
-        }
+        return {}
     },
 
     computed: {
@@ -50,22 +46,11 @@ export default {
 
     created() {
         this.getNotebooks()
-            .then(_ => { })
-
-        Notebooks.getAll().then(res => {
-            const { notebookId: queryNotebookId } = this.$route.query
-
-            this.notebooks = res.data
-            this.currentNotebook =
-                this.notebooks.find(notebook => notebook.id.toString() === queryNotebookId) ||
-                this.notebooks[0] ||
-                {}
-            return Notes.getAll({ notebookId: this.currentNotebook.id })
-        }).then(res => {
-            this.notes = res.data
-            this.$emit('update:notes', this.notes)
-            Bus.$emit('update:notes', this.notes)
-        })
+            .then(_ => {
+                this.$store.commit('setCurrentNotebook',
+                    { currentNotebookId: this.$route.qurey.notebookId })
+                this.getNotes({ notebookId: this.currentNotebookId })
+            })
     },
 
     methods: {
@@ -74,6 +59,9 @@ export default {
             if (notebookId === 'trash') {
                 return this.$router.push({ path: '/trash' })
             }
+
+            this.$store.commit('setCurrentNotebook', { currentNotebookId: notebookId })
+            this.getNotes({ notebookId })
             // 切换到用户选择的笔记本
             this.currentNotebook = this.notebooks.find(notebook => notebook.id === notebookId)
             // 获取切换后笔记本的所有笔记
