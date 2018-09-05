@@ -38,7 +38,12 @@ const mutations = {
 
     deleteNotebook(state, { notebookId }) {
         state.notebooks = state.notebooks.filter(notebook => notebook.id !== notebookId)
+    },
+
+    setCurrentBookId(state, { currentNotebookId }) {
+        state.currentNotebookId = currentNotebookId
     }
+
 }
 
 const actions = {
@@ -70,12 +75,7 @@ const actions = {
                 commit('deleteNotebook', { notebookId })
                 Message.success(res.msg)
             })
-    },
-
-    setCurrentNotebook(state, { currentNotebookId }) {
-        state.currentNotebookId = currentNotebookId
     }
-
 }
 
 export default {

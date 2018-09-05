@@ -60,8 +60,9 @@ export default {
         })
 
         Bus.$once('update:notes', notes => {
+            const toNoteId = +this.$route.query.noteId
             this.currentNote =
-                notes.find(note => note.id.toString() === this.$route.query.noteId) || {}
+                notes.find(note => note.id === toNoteId) || {}
         })
     },
 
@@ -88,8 +89,9 @@ export default {
     },
 
     beforeRouteUpdate(to, from, next) {
+        const toNoteId = +to.query.noteId
         this.currentNote =
-            this.notes.find(note => note.id.toString() === to.query.noteId) || {}
+            this.notes.find(note => note.id === toNoteId) || {}
         next()
     }
 }

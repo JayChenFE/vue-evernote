@@ -1,6 +1,6 @@
 <template>
     <div class="note-sidebar">
-        <el-button size="mini" round class="add-note" @click="addNote">添加笔记</el-button>
+        <el-button size="mini" round class="add-note" @click="onAddNote">添加笔记</el-button>
         <el-dropdown class="notebook-title" placement="bottom" @command="handleCommand">
             <span class="el-dropdown-link">
                 {{currentNotebook.title}}
@@ -29,9 +29,6 @@
 </template>
 
 <script>
-import Notebooks from '@/apis/notebooks'
-import Notes from '@/apis/notes'
-import Bus from '@/helpers/bus'
 import { mapActions, mapGetters } from 'vuex'
 
 export default {
@@ -41,40 +38,30 @@ export default {
     },
 
     computed: {
-        ...mapGetters(['notebooks', 'notes', 'currentNote'])
+        ...mapGetters(['notebooks', 'notes', 'currentNote', 'currentNotebook'])
     },
 
     created() {
         this.getNotebooks()
             .then(_ => {
-                this.$store.commit('setCurrentNotebook',
-                    { currentNotebookId: this.$route.qurey.notebookId })
-                this.getNotes({ notebookId: this.currentNotebookId })
+                const currentNotebookId = +this.$route.query.notebookId
+                this.$store.commit('setCurrentBookId', { currentNotebookId })
+                this.getNotes({ notebookId: this.currentNotebook.id })
             })
     },
 
     methods: {
-        ...mapActions(['getNotebooks,getNotes']),
+        ...mapActions(['getNotebooks', 'getNotes', 'addNote']),
         handleCommand(notebookId) {
             if (notebookId === 'trash') {
                 return this.$router.push({ path: '/trash' })
             }
 
-            this.$store.commit('setCurrentNotebook', { currentNotebookId: notebookId })
+            this.$store.commit('setCurrentBookId', { currentNotebookId: notebookId })
             this.getNotes({ notebookId })
-            // 切换到用户选择的笔记本
-            this.currentNotebook = this.notebooks.find(notebook => notebook.id === notebookId)
-            // 获取切换后笔记本的所有笔记
-            Notes.getAll({ notebookId }).then(res => {
-                this.notes = res.data
-                this.$emit('update:notes', this.notes)
-            })
         },
-        addNote() {
-            Notes.addNote({ notebookId: this.currentNotebook.id })
-                .then(res => {
-                    this.notes.unshift(res.data)
-                })
+        onAddNote() {
+            this.addNote({ notebookId: this.currentNotebook.id })
         }
     }
 }
