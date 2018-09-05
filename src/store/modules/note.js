@@ -2,12 +2,24 @@ import Note from '@/apis/notes'
 import { Message } from 'element-ui'
 
 const state = {
-    notes: [],
-    currentNote: {}
+    notes: null,
+    currentNoteId: null
 }
 
 const getters = {
-    notes: state => state.notes
+    notes: state => state.notes || [],
+
+    currentNote: state => {
+        if (!Array.isArray(state.notes)) {
+            return {}
+        }
+
+        if (!state.currentNoteId) {
+            return state.notes[0]
+        }
+
+        return state.notes.find(note => note.id === state.currentNoteId)
+    }
 }
 
 const mutations = {

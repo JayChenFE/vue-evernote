@@ -31,6 +31,7 @@ import NoteSidebar from '@/components/NoteSidebar'
 import Bus from '@/helpers/bus'
 import _ from 'loadsh'
 import MarkdownIt from 'markdown-it'
+import { mapActions, mapGetters } from 'vuex'
 
 const md = new MarkdownIt()
 
@@ -47,6 +48,7 @@ export default {
     },
 
     computed: {
+        ...mapGetters(['notes', 'currentNote']),
         previewContent() {
             return md.render(this.currentNote.content || '')
         }
