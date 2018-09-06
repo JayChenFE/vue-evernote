@@ -43,7 +43,7 @@ const mutations = {
         state.notes = state.notes.filter(note => note.id !== noteId)
     },
 
-    setCurrentNoteId(state, { currentNoteId = null }) {
+    setCurrentNoteId(state, { currentNoteId }) {
         state.currentNoteId = currentNoteId
     }
 
@@ -65,7 +65,7 @@ const actions = {
     },
 
     updateNote({ commit }, { noteId, title, content }) {
-        return Note.updateNote(noteId, { title, content })
+        return Note.updateNote({ noteId }, { title, content })
             .then(res => {
                 commit('updateNote', { noteId, title, content })
                 Message.success(res.msg)

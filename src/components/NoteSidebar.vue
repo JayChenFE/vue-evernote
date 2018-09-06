@@ -64,7 +64,7 @@ export default {
             this.setCurrentBookId({ currentNotebookId: notebookId })
             this.getNotes({ notebookId })
                 .then(_ => {
-                    this.setCurrentNoteId({ undefined })
+                    this.setCurrentNoteId({ currentNoteId: this.currentNote.id })
                     this.$router.replace({
                         path: '/note',
                         query: {

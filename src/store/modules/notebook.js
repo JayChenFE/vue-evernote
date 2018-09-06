@@ -9,17 +9,17 @@ const state = {
 const getters = {
     notebooks: state => state.notebooks || [],
     currentNotebook: state => {
-        // const { currentNotebookId } = state
+        const { currentNotebookId } = state
 
         if (!Array.isArray(state.notebooks)) {
             return {}
         }
 
-        if (!state.currentNotebookId) {
+        if (!currentNotebookId) {
             return state.notebooks[0]
         }
 
-        return state.notebooks.find(notebook => notebook.id === state.currentNotebookId)
+        return state.notebooks.find(notebook => notebook.id === currentNotebookId)
     }
 }
 

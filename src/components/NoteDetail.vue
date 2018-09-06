@@ -63,8 +63,8 @@ export default {
         ...mapActions(['updateNote', 'deleteNote']),
         onUpdateNote: _.debounce(function() {
             const { id: noteId, title, content } = this.currentNote
-
-            this.updateNote({ noteId }, { title, content })
+            console.log(this.currentNote)
+            this.updateNote({ noteId, title, content })
                 .then(data => {
                     this.statusText = '已保存'
                 }).catch(data => {
