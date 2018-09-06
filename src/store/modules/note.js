@@ -10,15 +10,16 @@ const getters = {
     notes: state => state.notes || [],
 
     currentNote: state => {
+        const { currentNoteId } = state
         if (!Array.isArray(state.notes)) {
             return {}
         }
 
-        if (!state.currentNoteId) {
+        if (!currentNoteId) {
             return state.notes[0]
         }
 
-        return state.notes.find(note => note.id === state.currentNoteId)
+        return state.notes.find(note => note.id === currentNoteId)
     }
 }
 
@@ -40,7 +41,12 @@ const mutations = {
 
     deleteNote(state, { noteId }) {
         state.notes = state.notes.filter(note => note.id !== noteId)
+    },
+
+    setCurrentNoteId(state, { currentNoteId = null }) {
+        state.currentNoteId = currentNoteId
     }
+
 }
 
 const actions = {
@@ -66,7 +72,7 @@ const actions = {
             })
     },
 
-    deleteNotebook({ commit }, { noteId }) {
+    deleteNote({ commit }, { noteId }) {
         return Note.deleteNote(noteId)
             .then(res => {
                 commit('deleteNote', { noteId })

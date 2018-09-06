@@ -9,6 +9,8 @@ const state = {
 const getters = {
     notebooks: state => state.notebooks || [],
     currentNotebook: state => {
+        // const { currentNotebookId } = state
+
         if (!Array.isArray(state.notebooks)) {
             return {}
         }

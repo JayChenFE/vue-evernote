@@ -29,7 +29,7 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex'
+import { mapActions, mapGetters, mapMutations } from 'vuex'
 
 export default {
 
@@ -44,22 +44,37 @@ export default {
     created() {
         this.getNotebooks()
             .then(_ => {
-                const currentNotebookId = +this.$route.query.notebookId
-                this.$store.commit('setCurrentBookId', { currentNotebookId })
+                const { notebookId, noteId } = this.$route.query
+                this.setCurrentBookId({ currentNotebookId: +notebookId })
                 this.getNotes({ notebookId: this.currentNotebook.id })
+                    .then(_ => {
+                        this.setCurrentNoteId({ currentNoteId: +noteId })
+                    })
             })
     },
 
     methods: {
+        ...mapMutations(['setCurrentBookId', 'setCurrentNoteId']),
         ...mapActions(['getNotebooks', 'getNotes', 'addNote']),
+
         handleCommand(notebookId) {
             if (notebookId === 'trash') {
                 return this.$router.push({ path: '/trash' })
             }
-
-            this.$store.commit('setCurrentBookId', { currentNotebookId: notebookId })
+            this.setCurrentBookId({ currentNotebookId: notebookId })
             this.getNotes({ notebookId })
+                .then(_ => {
+                    this.setCurrentNoteId({ undefined })
+                    this.$router.replace({
+                        path: '/note',
+                        query: {
+                            notebookId: this.currentNotebook.id,
+                            noteId: this.currentNote.id
+                        }
+                    })
+                })
         },
+
         onAddNote() {
             this.addNote({ notebookId: this.currentNotebook.id })
         }

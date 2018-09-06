@@ -9,13 +9,13 @@
                     <span>更新日期: {{currentNote.updatedAt|friendlyDate}}</span>
                     <span class="save">{{statusText}}</span>
                     <span class="iconfont icon-fullscreen" @click="isShowPreview=!isShowPreview"></span>
-                    <span class="iconfont icon-delete" @click="deleteNote"></span>
+                    <span class="iconfont icon-delete" @click="onDeleteNote"></span>
                 </div>
                 <div class="note-title">
-                    <input type="text" v-model="currentNote.title" @input="updateNote" @keydown="statusText='输入中...'" placeholder="输入标题">
+                    <input type="text" v-model="currentNote.title" @input="onUpdateNote" @keydown="statusText='输入中...'" placeholder="输入标题">
                 </div>
                 <div class="editor">
-                    <textarea v-show="!isShowPreview" v-model="currentNote.content" @input="updateNote" @keydown="statusText='输入中...'" placeholder="输入内容, 支持 markdown 语法">
+                    <textarea v-show="!isShowPreview" v-model="currentNote.content" @input="onUpdateNote" @keydown="statusText='输入中...'" placeholder="输入内容, 支持 markdown 语法">
                     </textarea>
                     <div class="preview markdown-body" v-html="previewContent" v-show="isShowPreview"></div>
                 </div>
@@ -26,12 +26,10 @@
 
 <script>
 import Auth from '@/apis/auth'
-import Notes from '@/apis/notes'
 import NoteSidebar from '@/components/NoteSidebar'
-import Bus from '@/helpers/bus'
 import _ from 'loadsh'
 import MarkdownIt from 'markdown-it'
-import { mapActions, mapGetters } from 'vuex'
+import { mapActions, mapGetters, mapMutations } from 'vuex'
 
 const md = new MarkdownIt()
 
@@ -40,8 +38,6 @@ export default {
     name: 'NodeDetail',
     data() {
         return {
-            currentNote: {},
-            notes: [],
             statusText: '笔记未更新',
             isShowPreview: false
         }
@@ -60,18 +56,15 @@ export default {
                 this.$router.push({ path: '/login' })
             }
         })
-
-        Bus.$once('update:notes', notes => {
-            const toNoteId = +this.$route.query.noteId
-            this.currentNote =
-                notes.find(note => note.id === toNoteId) || {}
-        })
     },
 
     methods: {
-        updateNote: _.debounce(function() {
-            const { title, content } = this.currentNote
-            Notes.updateNote({ noteId: this.currentNote.id }, { title, content })
+        ...mapMutations(['setCurrentNoteId']),
+        ...mapActions(['updateNote', 'deleteNote']),
+        onUpdateNote: _.debounce(function() {
+            const { id: noteId, title, content } = this.currentNote
+
+            this.updateNote({ noteId }, { title, content })
                 .then(data => {
                     this.statusText = '已保存'
                 }).catch(data => {
@@ -79,11 +72,9 @@ export default {
                 })
         }, 300),
 
-        deleteNote() {
-            Notes.deleteNote({ noteId: this.currentNote.id })
+        onDeleteNote() {
+            this.deleteNote({ noteId: this.currentNote.id })
                 .then(data => {
-                    this.$message.success(data.msg)
-                    this.notes.splice(this.notes.indexOf(this.currentNote), 1)
                     this.$router.replace({ path: '/note' })
                 })
         }
@@ -91,9 +82,7 @@ export default {
     },
 
     beforeRouteUpdate(to, from, next) {
-        const toNoteId = +to.query.noteId
-        this.currentNote =
-            this.notes.find(note => note.id === toNoteId) || {}
+        this.setCurrentNoteId({ currentNoteId: +to.query.noteId })
         next()
     }
 }
