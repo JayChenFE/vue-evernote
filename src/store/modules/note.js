@@ -16,10 +16,10 @@ const getters = {
         }
 
         if (!currentNoteId) {
-            return state.notes[0]
+            return state.notes[0] || {}
         }
 
-        return state.notes.find(note => note.id === currentNoteId)
+        return state.notes.find(note => note.id === currentNoteId) || {}
     }
 }
 
@@ -43,7 +43,7 @@ const mutations = {
         state.notes = state.notes.filter(note => note.id !== noteId)
     },
 
-    setCurrentNoteId(state, { currentNoteId }) {
+    setCurrentNoteId(state, { currentNoteId } = {}) {
         state.currentNoteId = currentNoteId
     }
 
@@ -61,6 +61,7 @@ const actions = {
             .then(res => {
                 commit('addNote', { note: res.data })
                 Message.success(res.msg)
+                return res.data.id
             })
     },
 
@@ -73,7 +74,7 @@ const actions = {
     },
 
     deleteNote({ commit }, { noteId }) {
-        return Note.deleteNote(noteId)
+        return Note.deleteNote({ noteId })
             .then(res => {
                 commit('deleteNote', { noteId })
                 Message.success(res.msg)

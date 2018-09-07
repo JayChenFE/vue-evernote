@@ -44,7 +44,7 @@ export default {
     },
 
     computed: {
-        ...mapGetters(['notes', 'currentNote']),
+        ...mapGetters(['notes', 'currentNote', 'currentNoteId']),
         previewContent() {
             return md.render(this.currentNote.content || '')
         }
@@ -63,7 +63,6 @@ export default {
         ...mapActions(['updateNote', 'deleteNote']),
         onUpdateNote: _.debounce(function() {
             const { id: noteId, title, content } = this.currentNote
-            console.log(this.currentNote)
             this.updateNote({ noteId, title, content })
                 .then(data => {
                     this.statusText = '已保存'
@@ -75,7 +74,12 @@ export default {
         onDeleteNote() {
             this.deleteNote({ noteId: this.currentNote.id })
                 .then(data => {
-                    this.$router.replace({ path: '/note' })
+                    this.$router.replace({
+                        path: '/note',
+                        query: {
+                            noteId: this.currentNote.id
+                        }
+                    })
                 })
         }
 

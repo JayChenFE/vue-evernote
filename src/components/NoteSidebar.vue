@@ -77,6 +77,9 @@ export default {
 
         onAddNote() {
             this.addNote({ notebookId: this.currentNotebook.id })
+                .then(noteId => {
+                    this.setCurrentNoteId({ currentNoteId: noteId })
+                })
         }
     }
 }
