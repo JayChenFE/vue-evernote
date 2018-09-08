@@ -31,8 +31,8 @@
 </template>
 
 <script>
-import Auth from '@/apis/auth'
-import Bus from '@/helpers/bus'
+import { mapActions } from 'vuex'
+
 export default {
     data() {
         return {
@@ -54,6 +54,10 @@ export default {
     },
 
     methods: {
+        ...mapActions({
+            loginUser: 'login',
+            registerUser: 'register' }),
+
         showLogin() {
             this.isShowLogin = true
             this.isShowRegister = false
@@ -63,7 +67,7 @@ export default {
             this.isShowRegister = true
         },
         onRegister() {
-            const { username, password } = this.login
+            const { username, password } = this.register
             if (!/^[\w\u4e00-\u9fa5]{3,15}$/.test(this.register.username)) {
                 this.register.isError = true
                 this.register.notice = '用户名3~15个字符，仅限于字母数字下划线中文'
@@ -75,11 +79,10 @@ export default {
                 return
             }
 
-            Auth.register({ username, password })
-                .then(data => {
+            this.registerUser({ username, password })
+                .then(_ => {
                     this.login.isError = false
                     this.login.notice = ''
-                    Bus.$emit('userInfo', username)
                     this.$router.push({
                         path: 'notebooks'
                     })
@@ -92,7 +95,7 @@ export default {
 
         onLogin() {
             const { username, password } = this.login
-            if (!/^[\w\u4e00-\u9fa5]{3,15}$/.test(this.login.username)) {
+            if (!/^[\w\u4e00-\u9fa5]{3,15}$/.test(username)) {
                 this.login.isError = true
                 this.login.notice = '用户名3~15个字符，仅限于字母数字下划线中文'
                 return
@@ -103,15 +106,13 @@ export default {
                 return
             }
 
-            Auth.login({ username, password })
-                .then(data => {
+            this.loginUser({ username, password })
+                .then(_ => {
                     this.login.isError = false
                     this.login.notice = ''
-                    Bus.$emit('userInfo', username)
                     this.$router.push({
                         path: 'notebooks'
                     })
-                    // console.log(data)
                 })
                 .catch(data => {
                     this.login.isError = true

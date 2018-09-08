@@ -16,7 +16,7 @@ const getters = {
         }
 
         if (!currentNotebookId) {
-            return state.notebooks[0]
+            return state.notebooks[0] || {}
         }
 
         return state.notebooks.find(notebook => notebook.id === currentNotebookId)

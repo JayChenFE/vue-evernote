@@ -24,7 +24,6 @@
 </template>
 
 <script>
-import Auth from '@/apis/auth'
 import { mapActions, mapGetters } from 'vuex'
 
 export default {
@@ -34,12 +33,9 @@ export default {
     },
 
     created() {
-        Auth.getInfo().then(res => {
-            if (!res.isLogin) {
-                this.$router.push({ path: '/login' })
-            }
-        })
-        this.$store.dispatch('getNotebooks')
+        this.checkLogin()
+        // this.$store.dispatch('getNotebooks')
+        this.getNotebooks()
     },
 
     computed: {
@@ -47,7 +43,7 @@ export default {
     },
 
     methods: {
-        ...mapActions(['getNotebooks', 'addNotebook', 'updateNotebook', 'deleteNotebook']),
+        ...mapActions(['checkLogin', 'getNotebooks', 'addNotebook', 'updateNotebook', 'deleteNotebook']),
 
         onCreate() {
             this.$prompt('请输入笔记本标题', '新建笔记本', {

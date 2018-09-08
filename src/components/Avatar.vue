@@ -3,23 +3,24 @@
 </template>
 
 <script>
-import Bus from '@/helpers/bus'
+import { mapGetters, mapActions } from 'vuex'
 export default {
     data() {
-        return { username: 'hunger' }
+        return {}
     },
 
     created() {
-        Bus.$on('userInfo', username => {
-            this.username = username
-        })
+        this.checkLogin()
     },
 
     computed: {
-        slug() {
-            return this.username.charAt(0)
-        }
+        ...mapGetters(['username', 'slug'])
+    },
+
+    methods: {
+        ...mapActions(['checkLogin'])
     }
+
 }
 </script>
 
