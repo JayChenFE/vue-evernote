@@ -6,7 +6,9 @@
             <div class="note-detail-ct" v-show="currentNote.id">
                 <div class="note-bar">
                     <span>创建日期: {{currentNote.createdAt|friendlyDate}}</span>
+                    <span>|</span>
                     <span>更新日期: {{currentNote.updatedAt|friendlyDate}}</span>
+                    <span>|</span>
                     <span class="save">{{statusText}}</span>
                     <span class="iconfont icon-fullscreen" @click="isShowPreview=!isShowPreview"></span>
                     <span class="iconfont icon-delete" @click="onDeleteNote"></span>
@@ -77,7 +79,6 @@ export default {
                     })
                 })
         }
-
     },
 
     beforeRouteUpdate(to, from, next) {

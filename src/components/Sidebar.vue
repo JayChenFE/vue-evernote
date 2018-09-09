@@ -8,7 +8,7 @@
             <router-link to="/notebooks" title="笔记本">
                 <i class="iconfont icon-notebook"></i>
             </router-link>
-            <router-link to="/trash/2" title="回收站">
+            <router-link to="/trash/" title="回收站">
                 <i class="iconfont icon-trash"></i>
             </router-link>
         </div>
