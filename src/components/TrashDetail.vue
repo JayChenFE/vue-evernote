@@ -91,6 +91,7 @@ export default {
 #trash {
   display: flex;
   align-items: stretch;
+  background-color: #fff;
   flex: 1;
   .note-bar {
     span:last-of-type {
@@ -104,6 +105,9 @@ export default {
         margin-right: 20px;
       }
     }
+  }
+  .note-title {
+    padding: 10px 20px;
   }
 }
 </style>
