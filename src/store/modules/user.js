@@ -1,6 +1,5 @@
 import Auth from '@/apis/auth'
 import router from '@/router'
-import { Message } from 'element-ui'
 
 const state = {
     user: null
