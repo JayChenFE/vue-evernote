@@ -46,6 +46,7 @@ export default {
 
     computed: {
         ...mapGetters(['notes', 'currentNote', 'currentNoteId']),
+
         previewContent() {
             return md.render(this.currentNote.content || '')
         }
@@ -57,6 +58,7 @@ export default {
 
     methods: {
         ...mapMutations(['setCurrentNoteId']),
+
         ...mapActions(['checkLogin', 'updateNote', 'deleteNote']),
         onUpdateNote: _.debounce(function() {
             const { id: noteId, title, content } = this.currentNote

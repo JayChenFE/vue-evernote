@@ -13,10 +13,16 @@ const getters = {
         const { currentTrashNoteId, trashNotes } = state
 
         if (!currentTrashNoteId) {
-            return getters.trashNotes[0]
+            return getters.trashNotes[0] || {}
         }
 
         return trashNotes.find(note => note.id === currentTrashNoteId) || {}
+    },
+
+    belongTo: (state, getters, rootState, rootGetters) => {
+        const { currentTrashNote } = getters
+        const notebook = rootGetters.notebooks.find(notebook => notebook.id === currentTrashNote.notebookId)
+        return notebook.title || ''
     }
 }
 
@@ -33,7 +39,7 @@ const mutations = {
         state.trashNotes = state.trashNotes.filter(note => note.id !== noteId)
     },
 
-    setCurrentTrashNoteId(state, { currentTrashNoteId } = {}) {
+    setCurrentTrashNoteId(state, { currentTrashNoteId = '' } = {}) {
         state.currentTrashNoteId = currentTrashNoteId
     }
 

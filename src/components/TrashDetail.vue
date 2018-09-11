@@ -36,50 +36,53 @@
 </template>
 <script>
 import MarkdownIt from 'markdown-it'
-import { mapActions, mapGetters } from 'vuex'
+import { mapActions, mapMutations, mapGetters } from 'vuex'
 
 const md = new MarkdownIt()
 
 export default {
     name: 'Login',
     data() {
-        return {
-            msg: '回收站笔记详情页',
-            currentTrashNote: {
-                id: 3,
-                title: '我',
-                content: '## hello'
-            },
-            belongTo: '我的笔记本',
-            trashNotes: [
-                {
-                    id: 3,
-                    title: '我',
-                    content: '## hello'
-                },
-                {
-                    id: 4,
-                    title: '我',
-                    content: '## hello'
-                }
-            ]
-        }
+        return {}
     },
 
     computed: {
-        // ...mapGetters(['notes', 'currentNote', 'currentNoteId']),
+        ...mapGetters(['currentTrashNote', 'trashNotes', 'belongTo']),
+
         compiledMarkdown() {
             return md.render(this.currentTrashNote.content || '')
         }
     },
+
     created() {
         this.checkLogin()
+        this.getNotebooks()
+            .then(this.getTrashNotes)
+            .then(_ => {
+                const { noteId } = this.$route.query
+                const currentTrashNoteId = noteId ? +noteId : null
+                this.setCurrentTrashNoteId({ currentTrashNoteId })
+            })
     },
 
     methods: {
-        ...mapActions(['checkLogin']),
-        onRevert() { },
-        onDelete() { }
+        ...mapMutations(['setCurrentTrashNoteId']),
+
+        ...mapActions(['checkLogin', 'getNotebooks', 'getTrashNotes', 'deleteTrashNote', 'revertTrashNote']),
+
+        onDelete() {
+            this.deleteTrashNote({ noteId: this.currentTrashNote.id })
+        },
+
+        onRevert() {
+            this.revertTrashNote({ noteId: this.currentTrashNote.id })
+        }
+
+    },
+
+    beforeRouteUpdate(to, from, next) {
+        this.setCurrentTrashNoteId({ currentTrashNoteId: +to.query.noteId })
+        next()
     }
 
 }

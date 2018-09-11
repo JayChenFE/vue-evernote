@@ -2,7 +2,7 @@ import request from '@/helpers/request'
 
 const URL = {
     GET: '/notes/trash',
-    REVERT: 'notes/:noteid/revert',
+    REVERT: 'notes/:noteId/revert',
     DELETE: '/notes/:noteId/confirm'
 }
 export default {
