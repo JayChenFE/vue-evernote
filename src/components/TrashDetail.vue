@@ -16,7 +16,7 @@
             </ul>
         </div>
         <div class="note-detail">
-            <div class="note-bar" v-if="currentTrashNote">
+            <div class="note-bar" v-if="currentTrashNote.id">
                 <span>创建日期: {{currentTrashNote.createdAt|friendlyDate}}</span>
                 <span> | </span>
                 <span>更新日期: {{currentTrashNote.updatedAt|friendlyDate}}</span>

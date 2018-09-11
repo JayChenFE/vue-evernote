@@ -42,15 +42,19 @@ export default {
     },
 
     created() {
-        this.getNotebooks()
-            .then(_ => {
-                const { notebookId, noteId } = this.$route.query
-                this.setCurrentBookId({ currentNotebookId: +notebookId })
-                this.getNotes({ notebookId: this.currentNotebook.id })
-                    .then(_ => {
-                        this.setCurrentNoteId({ currentNoteId: +noteId })
-                    })
+        this.getNotebooks().then(_ => {
+            this.setCurrentBookId({ currentNotebookId: +this.$route.query.notebookId })
+            return this.getNotes({ notebookId: this.currentNotebook.id })
+        }).then(_ => {
+            this.setCurrentNoteId({ currentNoteId: +this.$route.query.noteId })
+            this.$router.replace({
+                path: '/note',
+                query: {
+                    notebookId: this.currentNotebook.id,
+                    noteId: this.currentNote.id
+                }
             })
+        })
     },
 
     methods: {

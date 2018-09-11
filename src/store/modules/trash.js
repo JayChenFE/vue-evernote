@@ -21,8 +21,10 @@ const getters = {
 
     belongTo: (state, getters, rootState, rootGetters) => {
         const { currentTrashNote } = getters
-        const notebook = rootGetters.notebooks.find(notebook => notebook.id === currentTrashNote.notebookId)
-        return notebook.title || ''
+        const notebook = rootGetters.notebooks
+            .find(notebook => notebook.id === currentTrashNote.notebookId)
+
+        return (notebook || {}).title || ''
     }
 }
 
