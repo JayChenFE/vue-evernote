@@ -60,6 +60,7 @@ export default {
         ...mapMutations(['setCurrentNoteId']),
 
         ...mapActions(['checkLogin', 'updateNote', 'deleteNote']),
+
         onUpdateNote: _.debounce(function() {
             const { id: noteId, title, content } = this.currentNote
             this.updateNote({ noteId, title, content })

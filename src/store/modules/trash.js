@@ -41,7 +41,7 @@ const mutations = {
         state.trashNotes = state.trashNotes.filter(note => note.id !== noteId)
     },
 
-    setCurrentTrashNoteId(state, { currentTrashNoteId = '' } = {}) {
+    setCurrentTrashNoteId(state, { currentTrashNoteId } = {}) {
         state.currentTrashNoteId = currentTrashNoteId
     }
 

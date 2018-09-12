@@ -57,12 +57,17 @@ export default {
     created() {
         this.checkLogin()
         this.getNotebooks()
-            .then(this.getTrashNotes)
-            .then(_ => {
-                const { noteId } = this.$route.query
-                const currentTrashNoteId = noteId ? +noteId : null
-                this.setCurrentTrashNoteId({ currentTrashNoteId })
+        this.getTrashNotes().then(_ => {
+            const { noteId } = this.$route.query
+            const currentTrashNoteId = noteId ? +noteId : null
+            this.setCurrentTrashNoteId({ currentTrashNoteId })
+            this.$router.replace({
+                path: '/trash',
+                query: {
+                    noteId: this.currentTrashNote.id
+                }
             })
+        })
     },
 
     methods: {
@@ -71,11 +76,36 @@ export default {
         ...mapActions(['checkLogin', 'getNotebooks', 'getTrashNotes', 'deleteTrashNote', 'revertTrashNote']),
 
         onDelete() {
-            this.deleteTrashNote({ noteId: this.currentTrashNote.id })
+            const note = this.currentTrashNote
+
+            this.$confirm(`删除笔记 ${note.title} 后将无法恢复`, '确定删除？', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                type: 'warning'
+            }).then(_ => {
+                return this.deleteTrashNote({ noteId: note.id })
+            }).then(_ => {
+                this.setCurrentTrashNoteId()
+                this.$router.replace({
+                    path: '/trash',
+                    query: {
+                        noteId: this.currentTrashNote.id
+                    }
+                })
+            })
         },
 
         onRevert() {
             this.revertTrashNote({ noteId: this.currentTrashNote.id })
+                .then(_ => {
+                    this.setCurrentTrashNoteId()
+                    this.$router.replace({
+                        path: '/trash',
+                        query: {
+                            noteId: this.currentTrashNote.id
+                        }
+                    })
+                })
         }
 
     },
