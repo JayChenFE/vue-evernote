@@ -6,12 +6,15 @@ Vue.use(Router)
 export default new Router({
     routes: [
         {
+            path: '/',
+            redirect: '/login'
+        },
+        {
             path: '/login',
             component: _ => import('@/components/Login')
         },
         {
-            path: '/',
-            alias: '/notebooks',
+            path: '/notebooks',
             component: _ => import('@/components/NotebookList')
         },
         {
