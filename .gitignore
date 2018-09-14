@@ -12,3 +12,9 @@ yarn-error.log*
 *.ntvs*
 *.njsproj
 *.sln
+
+# history插件记录
+.history
+
+# 其他
+base-directory-tree/
